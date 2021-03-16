@@ -6,10 +6,10 @@ nexmo(){
 	autoload=$(echo $curl | grep -Po '(?<=autoReload":)[^},]*' | tr -d '[]"' | sed 's/\(<[^>]*>\|<\/>\|{1|}\)//g')
 	if [[ $autoload =~ "false" ]]; then
 		printf "LIVE => $1|$2 Belance : $credit/$autoload [NakoCode]\n"
-		echo "LIVE => $1|$2 Belance : $credit">>live.txt
+		echo "LIVE => $1|$2 Belance : $credit AutoReaload : $autoload">>live.txt
 	elif [[ $autoload =~ "true" ]]; then
     printf "LIVE => $1|$2 Belance : $credit/$autoload[NakoCode]\n"
-    echo "LIVE => $1|$2 Belance : $credit">>live.txt
+    echo "LIVE => $1|$2 Belance : $credit AutoReaload : $autoload">>live.txt
   else
 		printf "DEAD => $1|$2 [NakoCode]\n"
 	fi
@@ -44,7 +44,7 @@ for (( i = 0; i <"${#bacot[@]}"; i++ )); do
 	IFS='|' read -r -a array <<< "$WOW"
 	key=${array[0]}
 	secret=${array[1]}
-	((cthread=cthread%5)); ((cthread++==0)) && wait
+	((cthread=cthread%1)); ((cthread++==0)) && wait
 	nexmo ${key} ${secret} &
 done
 wait
